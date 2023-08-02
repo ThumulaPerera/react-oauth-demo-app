@@ -1,6 +1,8 @@
 import Typography from '@mui/joy/Typography';
 import Divider from '@mui/joy/Divider';
 
+const testConfig = window.config.testConfig;
+
 function LandingPage({ userInfo }) {
   let username = userInfo?.user ? userInfo.email : "anonymous user";
 
@@ -10,6 +12,7 @@ function LandingPage({ userInfo }) {
       <Divider />
       <br />
       <Typography level='body1'>Welcome, {username} !</Typography>
+      <Typography level='body1'>Test config value: {testConfig}</Typography>
     </div>
   );
 }

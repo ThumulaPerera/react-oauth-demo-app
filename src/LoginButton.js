@@ -2,7 +2,7 @@ import Button from '@mui/joy/Button';
 
 function LoginButton() {
     return (
-        <a href="http://localhost:4180/oauth2/sign_in">
+        <a href={window.config.oauth2ProxyBaseUrl + "/oauth2/sign_in"}>
             <Button>Login</Button>
         </a>
     );

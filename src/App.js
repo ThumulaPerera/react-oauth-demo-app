@@ -8,7 +8,7 @@ import AboutPage from "./AboutPage";
 import Navbar from "./Navbar";
 import ProtectedRoute from "./ProtectedRoute";
 
-const userInfoEndpoint = "http://localhost:4180/oauth2/userinfo";
+const userInfoEndpoint = window.config.oauth2ProxyBaseUrl + "/oauth2/userinfo";
 
 function App() {
   const [userInfo, setUserInfo] = useState({});

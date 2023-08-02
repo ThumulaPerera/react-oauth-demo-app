@@ -6,7 +6,7 @@ import CircularProgress from '@mui/joy/CircularProgress';
 import React, { useState, useEffect } from "react";
 import './App.css';
 
-const itemsAPI = "http://localhost:4180/rbln/dummy-item-service/api-e04/1.0.0/items";
+const itemsAPI = window.config.oauth2ProxyBaseUrl + window.config.itemsEndpoint;
 
 function ItemList() {
     const [items, setItems] = useState([]);
