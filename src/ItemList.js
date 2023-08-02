@@ -1,3 +1,8 @@
+import Typography from '@mui/joy/Typography';
+import Table from '@mui/joy/Table';
+import Button from '@mui/joy/Button';
+import CircularProgress from '@mui/joy/CircularProgress';
+
 import React, { useState, useEffect } from "react";
 import './App.css';
 
@@ -13,28 +18,57 @@ function ItemList() {
 
     const fetchItems = async () => {
         setIsFetching(true);
-        const response = await fetch(itemsAPI);
-        const jsonData = await response.json();
-        console.log(jsonData);
-        setItems(jsonData);
+        fetch(itemsAPI)
+            .then(response => {
+                if (response.status !== 200) {
+                    throw new Error("Items API returned an error. Status: " 
+                        + response.status 
+                        + "("  
+                        + response.statusText
+                        + ")");
+                }
+                return response.json();
+            })  
+            .then(jsonData => {
+                console.log("Items fetched :");
+                console.log(jsonData);
+                setItems(jsonData);
+            })
+            .catch(error => {
+                console.log("Error fetching items");
+                console.log(error);
+            })
         setIsFetching(false);
     };
 
     const listItems = items.map(item =>
-        <li key={item.id}>
-            {item.name + " : " + item.price}
-        </li>
+        <tr key={item.id}>
+            <td>{item.name}</td>
+            <td>{item.price}</td>
+        </tr>
     );
 
     return (
-        <>
-            <h3>Available Items</h3>
+        <>  
+            <Typography level='h6'>Available Items</Typography>
+            <br />
             {isFetching ?
-                <p>Loading...</p>
+                <CircularProgress variant="plain" />
                 :
                 <>
-                    <ul>{listItems}</ul>
-                    <button onClick={fetchItems}>Refresh List</button>
+                    <Table variant='outlined'>
+                        <thead>
+                            <tr>
+                                <th style={{ width: '75%' }}>Item</th>
+                                <th>Price</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {listItems}
+                        </tbody>
+                    </Table>
+                    <br />
+                    <Button color="primary" variant="outlined" onClick={fetchItems}>Refresh List</Button>
                 </>
             }
         </>

@@ -20,12 +20,18 @@ function App() {
 
   const fetchUserInfo = async () => {
     console.log("fetching user info started");
-    const response = await fetch(userInfoEndpoint);
-    const jsonData = await response.json();
-    console.log(jsonData);
-    setUserInfo(jsonData);
-    setIsCheckingUserinfo(false);
-    console.log("fetching user info done");
+    fetch(userInfoEndpoint)
+      .then(response => response.json())
+      .then(jsonData => {
+        console.log(jsonData);
+        setUserInfo(jsonData);
+        setIsCheckingUserinfo(false);
+        console.log("fetching user info done");
+      })
+      .catch(error => {
+        console.log("Error fetching user info");
+        console.log(error);
+      })
   };
 
   return(

@@ -1,8 +1,13 @@
+import Typography from '@mui/joy/Typography';
+import Divider from '@mui/joy/Divider';
+
 function AboutPage() {
     return (
         <div className="App">
-            <h2>About</h2>
-            <h3>This is the about page.</h3>
+            <Typography level='h3'>About</Typography>
+            <Divider />
+            <br />
+            <Typography level="body1">This is the about page.</Typography>
         </div>
     );
 }

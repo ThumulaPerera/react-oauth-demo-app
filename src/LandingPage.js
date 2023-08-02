@@ -1,10 +1,15 @@
+import Typography from '@mui/joy/Typography';
+import Divider from '@mui/joy/Divider';
+
 function LandingPage({ userInfo }) {
   let username = userInfo?.user ? userInfo.email : "anonymous user";
 
   return (
     <div className="App">
-      <h2>React SPA</h2>
-      <h3>Welcome, {username} !</h3>
+      <Typography level='h3'>React SPA</Typography>
+      <Divider />
+      <br />
+      <Typography level='body1'>Welcome, {username} !</Typography>
     </div>
   );
 }
