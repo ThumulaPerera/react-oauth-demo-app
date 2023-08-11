@@ -19,13 +19,10 @@ const Navbar = ({ user }) => {
                     </Link>
 
                     {user &&
-                        <Link to="/items">
-                            <Button>Items</Button>
+                        <Link to="/protected">
+                            <Button>Protected Page</Button>
                         </Link>
                     }
-                    <Link to="/about">
-                        <Button>About</Button>
-                    </Link>
                 </ButtonGroup>
             </div>
             <div style={{ marginLeft: "auto", paddingRight: "1em" }}>

@@ -3,8 +3,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 import './App.css';
 import LandingPage from "./LandingPage";
-import ItemPage from "./ItemPage";
-import AboutPage from "./AboutPage";
+import ProtectedPage from "./ProtectedPage";
 import Navbar from "./Navbar";
 import ProtectedRoute from "./ProtectedRoute";
 
@@ -39,13 +38,12 @@ function App() {
       <Navbar user={userInfo?.user}/>
       <Routes>
         <Route path="/" element={<LandingPage userInfo={userInfo} />} />
-        <Route path="/items" 
+        <Route path="/protected" 
           element={
             <ProtectedRoute user={userInfo?.user} isCheckingUserinfo={isCheckingUserinfo}>
-              <ItemPage />
+              <ProtectedPage />
             </ProtectedRoute>
           } />
-        <Route path="/about" element={<AboutPage />} />
       </Routes>
     </Router>
   )
