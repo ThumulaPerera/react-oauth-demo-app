@@ -1,12 +1,11 @@
 import Typography from '@mui/joy/Typography';
-import Table from '@mui/joy/Table';
 import Button from '@mui/joy/Button';
 import CircularProgress from '@mui/joy/CircularProgress';
 
 import React, { useState, useEffect } from "react";
 import './App.css';
 
-const ApiUrl = window.config.oauth2ProxyBaseUrl + window.config.apiPrefix + window.config.itemsEndpoint;
+const ApiUrl = window.config.apiPrefix + window.config.itemsEndpoint;
 
 function ApiResponse() {
     const [response, setResponse] = useState([]);

@@ -4,7 +4,7 @@ import Divider from '@mui/joy/Divider';
 const testConfig = window.config.testConfig;
 
 function LandingPage({ userInfo }) {
-  let username = userInfo?.user ? userInfo.email : "anonymous user";
+  let username = userInfo ? userInfo.email : "anonymous user";
 
   return (
     <div className="App">

@@ -2,7 +2,7 @@ import Button from '@mui/joy/Button';
 
 function LogoutButton() {
     return (
-        <a href={window.config.oauth2ProxyBaseUrl + "/oauth2/sign_out"}>
+        <a href={"/auth/logout"}>
             <Button color="neutral">Log out</Button>
         </a>
     );
