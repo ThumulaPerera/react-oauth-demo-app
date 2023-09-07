@@ -98,7 +98,7 @@ export class OAuth2AuthorizationCodeClient {
 
   }
 
-  async getTokenFromCodeRedirect(url: string|URL, params: {redirectUri: string; state?: string; codeVerifier?:string} ): Promise<OAuth2Token> {
+  async getTokenFromCodeRedirect(url: string|URL, params: {state?: string; codeVerifier?:string} ): Promise<OAuth2Token> {
 
     const { code } = await this.validateResponse(url, {
       state: params.state
@@ -106,7 +106,7 @@ export class OAuth2AuthorizationCodeClient {
 
     return this.getToken({
       code,
-      redirectUri: params.redirectUri,
+      redirectUri: this.client.settings.redirectUri,
       codeVerifier: params.codeVerifier,
     });
 
