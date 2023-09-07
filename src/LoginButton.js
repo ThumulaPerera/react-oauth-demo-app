@@ -10,7 +10,7 @@ function LoginButton() {
         document.location = await oAuth2Client.authorizationCode.getAuthorizeUri({
           state: 'some-string',
           codeVerifier,
-          scope: ['openid', 'profile'],
+          scope: ['openid', 'profile', 'email'],
         });
     }
 
