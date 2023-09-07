@@ -6,53 +6,36 @@ import LandingPage from "./LandingPage";
 import ProtectedPage from "./ProtectedPage";
 import Navbar from "./Navbar";
 import ProtectedRoute from "./ProtectedRoute";
-
-const userInfoEndpoint = "/auth/userinfo";
+import Callback from "./Callback";
 
 function App() {
-  const [userInfo, setUserInfo] = useState(null);
-  const [isCheckingUserinfo, setIsCheckingUserinfo] = useState(true);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isCheckingLoggedInState, setIsCheckingLoggedInState] = useState(true);
 
   useEffect(() => {
-    fetchUserInfo();
-  }, []);
+    checkIsLoggedIn();
+  },);
 
-  const fetchUserInfo = async () => {
-    console.log("fetching user info started");
-    fetch(userInfoEndpoint)
-      .then(response => {
-        if (response.status !== 200) {
-          throw new Error("API returned an error. Status: "
-            + response.status
-            + "("
-            + response.statusText
-            + ")");
-        }
-        return response.json();
-      })
-      .then(jsonData => {
-        console.log(jsonData);
-        setUserInfo(jsonData);
-        setIsCheckingUserinfo(false);
-        console.log(userInfo)
-        console.log("fetching user info done");
-      })
-      .catch(error => {
-        setUserInfo(null);
-        setIsCheckingUserinfo(false);
-        console.log("Error fetching user info");
-        console.log(error);
-      })
+  const checkIsLoggedIn = () => {
+    const token = sessionStorage.getItem("token");
+    console.log("token: " + token);
+    if (token !== null) {
+      setIsLoggedIn(true);
+    };
+    setIsCheckingLoggedInState(false);
+    console.log("isCheckingLoggedInState: " + isCheckingLoggedInState);
+    console.log("isLoggedIn: " + isLoggedIn);
   };
 
   return (
     <Router>
-      <Navbar user={userInfo} />
+      <Navbar isLoggedIn={isLoggedIn} />
       <Routes>
-        <Route path="/" element={<LandingPage userInfo={userInfo} />} />
+        <Route path="/" element={<LandingPage userInfo={null} />} />
+        <Route path="/auth/callback" element={<Callback />} />
         <Route path="/protected"
           element={
-            <ProtectedRoute user={userInfo} isCheckingUserinfo={isCheckingUserinfo}>
+            <ProtectedRoute isLoggedIn={isLoggedIn} isCheckingLoggedInState={isCheckingLoggedInState}>
               <ProtectedPage />
             </ProtectedRoute>
           } />

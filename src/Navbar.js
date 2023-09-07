@@ -6,7 +6,7 @@ import LogoutButton from "./LogoutButton";
 
 const { Link } = require("react-router-dom");
 
-const Navbar = ({ user }) => {
+const Navbar = ({ isLoggedIn }) => {
     return (
         <nav style={{ display: "flex", justifyContent: "space-between", alignItems: "center", textAlign: "center", marginTop: "20px" }}>
             <div style={{ textAlign: "left" }}>
@@ -18,7 +18,7 @@ const Navbar = ({ user }) => {
                         </Button>
                     </Link>
 
-                    {user &&
+                    {isLoggedIn &&
                         <Link to="/protected">
                             <Button>Protected Page</Button>
                         </Link>
@@ -26,7 +26,7 @@ const Navbar = ({ user }) => {
                 </ButtonGroup>
             </div>
             <div style={{ marginLeft: "auto", paddingRight: "1em" }}>
-                {user ?
+                {isLoggedIn ?
                     <LogoutButton />
                     :
                     <LoginButton />
