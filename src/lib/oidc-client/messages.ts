@@ -59,6 +59,7 @@ export type RefreshRequest = {
     expires_in: number;
     refresh_token?: string;
     scope?: string;
+    id_token?: string;
   }
   
   type OAuth2ResponseType = 'code' | 'token';

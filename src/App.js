@@ -17,9 +17,8 @@ function App() {
   },);
 
   const checkIsLoggedIn = () => {
-    const token = sessionStorage.getItem("token");
-    console.log("token: " + token);
-    if (token !== null) {
+    const idToken = sessionStorage.getItem("idToken");
+    if (idToken !== null) {
       setIsLoggedIn(true);
     };
     setIsCheckingLoggedInState(false);

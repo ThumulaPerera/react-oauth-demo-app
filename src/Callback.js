@@ -13,6 +13,8 @@ function Callback() {
             }
           ).then((token) => {
             sessionStorage.setItem("token", token.accessToken);
+            sessionStorage.setItem("refreshToken", token.refreshToken);
+            sessionStorage.setItem("idToken", token.idToken);
             sessionStorage.removeItem("PKCE");
             window.location.href = "/";
           });

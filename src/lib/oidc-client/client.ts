@@ -235,8 +235,8 @@ export class OAuth2Client {
       accessToken: body.access_token,
       expiresAt: body.expires_in ? Date.now() + (body.expires_in * 1000) : null,
       refreshToken: body.refresh_token ?? null,
+      idToken: body.id_token ?? null,
     }));
-
   }
 
 }
