@@ -3,7 +3,7 @@ import { OAuth2Client, generateQueryString } from './client.ts';
 // @ts-ignore
 import { OAuth2Token } from './token.ts';
 // @ts-ignore
-import { AuthorizationCodeRequest, AuthorizationQueryParams } from './messages.ts';
+import { AuthorizationCodeRequest, AuthorizationQueryParams, LogoutQueryParams } from './messages.ts';
 // @ts-ignore
 import { OAuth2Error } from './error.ts';
 
@@ -31,6 +31,20 @@ type GetAuthorizeUrlParams = {
    * Any parameters listed here will be added to the query string for the authorization server endpoint.
    */
   extraParams?: Record<string, string>;
+}
+
+type GetLogoutUrlParams = {
+
+  /**
+   * ID token
+   */
+  idTokenHint: string;
+
+  /**
+   * The 'state' is a string that can be sent to the authentication server,
+   * and back to the postLogoutRedirectUri.
+   */
+  state?: string;
 }
 
 type ValidateResponseResult = {
@@ -91,14 +105,36 @@ export class OAuth2AuthorizationCodeClient {
       throw new Error(`The following extraParams are disallowed: '${disallowed.join("', '")}'`);
     }
 
-    query = {...query, ...params?.extraParams};
+    query = { ...query, ...params?.extraParams };
 
 
     return authorizationEndpoint + '?' + generateQueryString(query);
 
   }
 
-  async getTokenFromCodeRedirect(url: string|URL, params: {state?: string; codeVerifier?:string} ): Promise<OAuth2Token> {
+  /**
+   * Returns the URi that the user should open in a browser to initiate the
+   * authorization_code flow.
+   */
+  async getLogoutUri(params: GetLogoutUrlParams): Promise<string> {
+
+    const logoutEndpoint = await this.client.getEndpoint('logoutEndpoint');
+
+    let query: LogoutQueryParams = {
+      id_token_hint: params.idTokenHint,
+
+    }
+    if (this.client.settings.postLogoutRedirectUri) {
+      query.post_logout_redirect_uri = this.client.settings.postLogoutRedirectUri;
+    }
+    if (params.state) {
+      query.state = params.state;
+    }
+
+    return logoutEndpoint + '?' + generateQueryString(query);
+  }
+
+  async getTokenFromCodeRedirect(url: string | URL, params: { state?: string; codeVerifier?: string }): Promise<OAuth2Token> {
 
     const { code } = await this.validateResponse(url, {
       state: params.state
@@ -119,7 +155,7 @@ export class OAuth2AuthorizationCodeClient {
    * This function takes the url and validate the response. If the user
    * redirected back with an error, an error will be thrown.
    */
-  async validateResponse(url: string|URL, params: {state?: string}): Promise<ValidateResponseResult> {
+  async validateResponse(url: string | URL, params: { state?: string }): Promise<ValidateResponseResult> {
 
     const queryParams = new URL(url).searchParams;
 
@@ -150,7 +186,7 @@ export class OAuth2AuthorizationCodeClient {
    */
   async getToken(params: { code: string; redirectUri: string; codeVerifier?: string }): Promise<OAuth2Token> {
 
-    const body:AuthorizationCodeRequest = {
+    const body: AuthorizationCodeRequest = {
       grant_type: 'authorization_code',
       code: params.code,
       redirect_uri: params.redirectUri,
@@ -170,7 +206,7 @@ export async function generateCodeVerifier(): Promise<string> {
     const arr = new Uint8Array(32);
     webCrypto.getRandomValues(arr);
     return base64Url(arr);
-  } 
+  }
   // else {
 
   //   // Old node doesn't have 'webcrypto', so this is a fallback
@@ -194,7 +230,7 @@ export async function getCodeChallenge(codeVerifier: string): Promise<['plain' |
   const webCrypto = getWebCrypto();
   if (webCrypto?.subtle) {
     return ['S256', base64Url(await webCrypto.subtle.digest('SHA-256', stringToBuffer(codeVerifier)))];
-  } 
+  }
   // else {
   //   // Node 14.x fallback
   //   // eslint-disable-next-line @typescript-eslint/no-var-requires
@@ -230,7 +266,7 @@ function getWebCrypto() {
 function stringToBuffer(input: string): ArrayBuffer {
 
   const buf = new Uint8Array(input.length);
-  for(let i=0; i<input.length;i++) {
+  for (let i = 0; i < input.length; i++) {
     buf[i] = input.charCodeAt(i) & 0xFF;
   }
   return buf;

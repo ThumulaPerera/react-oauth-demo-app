@@ -61,6 +61,11 @@ export type RefreshRequest = {
     scope?: string;
     id_token?: string;
   }
+
+  export type LogoutQueryParams = {
+    id_token_hint: string;
+    state?: string;
+  }
   
   type OAuth2ResponseType = 'code' | 'token';
   type OAuth2GrantType = 'authorization_code' | 'implicit' | 'password' | 'client_credentials' | 'refresh_token' | 'urn:ietf:params:oauth:grant-type:jwt-bearer' | 'urn:ietf:params:oauth:grant-type:saml2-bearer';

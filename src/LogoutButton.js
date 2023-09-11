@@ -1,26 +1,18 @@
 import Button from '@mui/joy/Button';
+import { oAuth2Client } from './OAuthClient';
 
 function LogoutButton() {
     const startLogout = async () => {
+        const idToken = sessionStorage.getItem("idToken");
+
         // remove tokens from session storage
+        sessionStorage.clear();
 
         // redirect to oidc logout endpoint
-
-        // In a browser this might work as follows:
-        // document.location = await oAuth2Client.authorizationCode.getAuthorizeUri({
-        
-        //   // URL in the app that the user should get redirected to after authenticating
-        //   redirectUri: 'http://localhost:3000/auth/callback',
-        
-        //   // Optional string that can be sent along to the auth server. This value will
-        //   // be sent along with the redirect back to the app verbatim.
-        //   state: 'some-string',
-        
-        //   codeVerifier,
-        
-        //   scope: ['openid', 'profile'],
-        
-        // });
+        document.location = await oAuth2Client.authorizationCode.getLogoutUri({
+          idTokenHint: idToken,
+          state: 'some-string',
+        });
     }
 
     return (

@@ -53,23 +53,9 @@ export interface ClientSettings {
   tokenEndpoint?: string;
 
   /**
-   * Introspection endpoint.
-   *
-   * Required for, well, introspecting tokens.
-   * If not provided we'll try to discover it, or otherwise default to /introspect
+   * OIDC logout endpoint.
    */
-  introspectionEndpoint?: string;
-
-  /**
-   * OAuth 2.0 Authorization Server Metadata endpoint or OpenID
-   * Connect Discovery 1.0 endpoint.
-   *
-   * If this endpoint is provided it can be used to automatically figure
-   * out all the other endpoints.
-   *
-   * Usually the URL for this is: https://server/.well-known/oauth-authorization-server
-   */
-  discoveryEndpoint?: string;
+  logoutEndpoint?: string;
 
   /**
    * Client authentication method that is used to authenticate
@@ -85,10 +71,15 @@ export interface ClientSettings {
    * Redirect URI used for the authorization_code flow.
    */
   redirectUri: string;
+
+  /**
+   * Post logout redirect URI used for the OIDC logout flow.
+   */
+  postLogoutRedirectUri?: string;
 }
 
 
-type OAuth2Endpoint = 'tokenEndpoint' | 'authorizationEndpoint';
+type OAuth2Endpoint = 'tokenEndpoint' | 'authorizationEndpoint' | 'logoutEndpoint';
 
 export class OAuth2Client {
 
@@ -154,6 +145,8 @@ export class OAuth2Client {
         return resolve('/authorize', this.settings.server);
       case 'tokenEndpoint':
         return resolve('/token', this.settings.server);
+      case 'logoutEndpoint':
+        return resolve('/oidc/logout', this.settings.server);
     }
 
   }
