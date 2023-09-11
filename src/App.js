@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 import jwt_decode from "jwt-decode";
 
 
@@ -43,6 +43,12 @@ function App() {
               <ProtectedPage />
             </ProtectedRoute>
           } />
+        <Route
+          path="*"
+          element={
+            <Navigate to="/" />
+          }
+        />
       </Routes>
     </Router>
   )
