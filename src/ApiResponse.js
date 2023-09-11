@@ -17,7 +17,11 @@ function ApiResponse() {
 
     const fetchResponse = async () => {
         setIsFetching(true);
-        fetch(ApiUrl)
+        fetch(ApiUrl, {
+            headers: {
+                Authorization: "Bearer " + sessionStorage.getItem("accessToken")
+            }
+        })
             .then(response => {
                 if (response.status !== 200) {
                     throw new Error("API returned an error. Status: " 

@@ -12,7 +12,7 @@ function Callback() {
               codeVerifier,      
             }
           ).then((token) => {
-            sessionStorage.setItem("token", token.accessToken);
+            sessionStorage.setItem("accessToken", token.accessToken);
             sessionStorage.setItem("refreshToken", token.refreshToken);
             sessionStorage.setItem("idToken", token.idToken);
             sessionStorage.removeItem("PKCE");
