@@ -7,8 +7,7 @@ function Callback() {
         const codeVerifier = sessionStorage.getItem("PKCE");
         oAuth2Client.authorizationCode.getTokenFromCodeRedirect(
             document.location,
-            {
-              state: 'some-string',         
+            {     
               codeVerifier,      
             }
           ).then((token) => {

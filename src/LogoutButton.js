@@ -11,7 +11,6 @@ function LogoutButton() {
         // redirect to oidc logout endpoint
         document.location = await oAuth2Client.authorizationCode.getLogoutUri({
           idTokenHint: idToken,
-          state: 'some-string',
         });
     }
 

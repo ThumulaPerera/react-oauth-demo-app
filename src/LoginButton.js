@@ -8,7 +8,6 @@ function LoginButton() {
         sessionStorage.setItem("PKCE", codeVerifier);
 
         document.location = await oAuth2Client.authorizationCode.getAuthorizeUri({
-          state: 'some-string',
           codeVerifier,
         });
     }
