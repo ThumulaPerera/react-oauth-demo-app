@@ -76,6 +76,11 @@ export interface ClientSettings {
    * Post logout redirect URI used for the OIDC logout flow.
    */
   postLogoutRedirectUri?: string;
+
+  /**
+   * The scopes that the client wants to request.
+   */ 
+  scope?: string[];
 }
 
 

@@ -23,11 +23,6 @@ type GetAuthorizeUrlParams = {
   codeVerifier?: string;
 
   /**
-   * List of scopes.
-   */
-  scope?: string[];
-
-  /**
    * Any parameters listed here will be added to the query string for the authorization server endpoint.
    */
   extraParams?: Record<string, string>;
@@ -95,8 +90,8 @@ export class OAuth2AuthorizationCodeClient {
     if (params.state) {
       query.state = params.state;
     }
-    if (params.scope) {
-      query.scope = params.scope.join(' ');
+    if (this.client.settings.scope) {
+      query.scope = this.client.settings.scope.join(' ');
     }
 
     const disallowed = Object.keys(query);
