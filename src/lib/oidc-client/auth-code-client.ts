@@ -117,7 +117,6 @@ export class OAuth2AuthorizationCodeClient {
 
     let query: LogoutQueryParams = {
       id_token_hint: params.idTokenHint,
-
     }
     if (this.client.settings.postLogoutRedirectUri) {
       query.post_logout_redirect_uri = this.client.settings.postLogoutRedirectUri;

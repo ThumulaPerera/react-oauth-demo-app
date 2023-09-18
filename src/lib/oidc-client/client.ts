@@ -99,15 +99,15 @@ export class OAuth2Client {
   /**
    * Refreshes an existing token, and returns a new one.
    */
-  async refreshToken(token: OAuth2Token): Promise<OAuth2Token> {
+  async refreshToken(refreshToken: string): Promise<OAuth2Token> {
 
-    if (!token.refreshToken) {
-      throw new Error('This token didn\'t have a refreshToken. It\'s not possible to refresh this');
+    if (!refreshToken) {
+      throw new Error('Refresh token is required');
     }
 
     const body: RefreshRequest = {
       grant_type: 'refresh_token',
-      refresh_token: token.refreshToken,
+      refresh_token: refreshToken,
     };
     if (!this.settings.clientSecret) {
       // If there's no secret, send the clientId in the body.
